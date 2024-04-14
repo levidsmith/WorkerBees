@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour {
 
     public float fTotalTime;
 
+    public AudioSource musicGame;
+    public SoundEffects soundeffects;
+
     // Start is called before the first frame update
     void Start() {
         gameRestart();
@@ -31,7 +34,9 @@ public class GameManager : MonoBehaviour {
     void Update() {
         Hive hive = FindObjectOfType<Hive>();
         if (!isGameOver && hive == null) {
+            soundeffects.soundHiveDead.Play();
             isGameOver = true;
+            musicGame.Stop();
             PanelGameOver.SetActive(true);
             enemyspawner.gameObject.SetActive(false);
         }
@@ -65,9 +70,9 @@ public class GameManager : MonoBehaviour {
         fWaitDelay = 0f;
         fMaxWaitDelay = 2f;
         fTotalTime = 0f;
+        musicGame.Play();
 
         isGameOver = false;
-
 
     }
 
@@ -115,6 +120,7 @@ public class GameManager : MonoBehaviour {
         bee.fStartRadians = fRadians;
 
         bee.transform.SetParent(Room.transform);
+        soundeffects.soundBeeSpawn.Play();
         fWaitDelay = fMaxWaitDelay;
     }
 }

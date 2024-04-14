@@ -57,6 +57,7 @@ public class EnemySpawner : MonoBehaviour {
 
             Enemy enemy = Instantiate(EnemyPrefab, pos, Quaternion.identity).GetComponent<Enemy>();
             enemy.transform.SetParent(Room.transform);
+            FindObjectOfType<SoundEffects>().soundEnemySpawn.Play();
         }
 
 

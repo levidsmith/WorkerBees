@@ -36,6 +36,7 @@ public class Hive : MonoBehaviour {
             if (iHealth <= 0) {
                 Destroy(this.gameObject);
             }
+            FindObjectOfType<SoundEffects>().soundHiveHit.Play();
         }
     }
 }

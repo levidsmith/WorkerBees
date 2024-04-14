@@ -36,6 +36,7 @@ public class Bee : MonoBehaviour {
         if (enemy != null) {
             Destroy(enemy.gameObject);
             Destroy(this.gameObject);
+            FindObjectOfType<SoundEffects>().soundBeeDead.Play();
         }
     }
 }
