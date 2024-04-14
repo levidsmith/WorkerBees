@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -14,6 +15,11 @@ public class GameManager : MonoBehaviour {
     public Bee BeePrefab;
     public Camera camera;
     public GameObject Room;
+
+    public float fWaitDelay;
+    public float fMaxWaitDelay;
+
+    public float fTotalTime;
 
     // Start is called before the first frame update
     void Start() {
@@ -32,6 +38,11 @@ public class GameManager : MonoBehaviour {
 
         if (!isGameOver) {
             handleMouseInput();
+            fTotalTime += Time.deltaTime;
+        }
+
+        if (fWaitDelay > 0f) {
+            fWaitDelay -= Time.deltaTime;
         }
 
         
@@ -51,6 +62,9 @@ public class GameManager : MonoBehaviour {
         enemyspawner.gameObject.SetActive(true);
         enemyspawner.reset();
         PanelGameOver.SetActive(false);
+        fWaitDelay = 0f;
+        fMaxWaitDelay = 2f;
+        fTotalTime = 0f;
 
         isGameOver = false;
 
@@ -59,6 +73,7 @@ public class GameManager : MonoBehaviour {
 
     public void gameExit() {
         Debug.Log("back to title screen");
+        SceneManager.LoadScene("title");
     }
 
     private void handleMouseInput() {
@@ -69,6 +84,10 @@ public class GameManager : MonoBehaviour {
 
     private void spawnBee() {
         float fRadius;
+
+        if (fWaitDelay > 0f) {
+            return;
+        }
 
         //fRadius = Input.mousePosition.
         Vector3 pos = camera.ScreenToWorldPoint(Input.mousePosition);
@@ -96,5 +115,6 @@ public class GameManager : MonoBehaviour {
         bee.fStartRadians = fRadians;
 
         bee.transform.SetParent(Room.transform);
+        fWaitDelay = fMaxWaitDelay;
     }
 }
